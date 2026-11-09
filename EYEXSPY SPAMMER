@@ -1,0 +1,423 @@
+-- [[ ⚡ EYExSPAMMER V1 - 40X SYMBOL REPEAT EDITION ⚡ ]] --
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TextChatService = game:GetService("TextChatService")
+local SoundService = game:GetService("SoundService")
+local TweenService = game:GetService("TweenService")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+pcall(function()
+	if playerGui:FindFirstChild("EyeXSpammerGui") then
+		playerGui["EyeXSpammerGui"]:Destroy()
+	end
+end)
+
+local RP_NAME = "💥EYExSPAMMER V1 [LOADED]💥"
+local RP_BIO  = "❗EYExSPAMMER ON TOP MADE BY [EYExSPY]"
+
+-- Play "Weeks" Phonk Music in Background during warning
+local PhonkSound = Instance.new("Sound", SoundService)
+PhonkSound.SoundId = "rbxassetid://9041724185"
+PhonkSound.Volume = 1
+PhonkSound.Looped = true
+pcall(function()
+	PhonkSound:Play()
+end)
+
+-- Robust Chat Send Function
+local function sendMessage(msg)
+	pcall(function()
+		local success = false
+		pcall(function()
+			local textChannels = TextChatService:FindFirstChild("TextChannels")
+			if textChannels then
+				local generalChannel = textChannels:FindFirstChild("RBXGeneral")
+				if generalChannel then
+					generalChannel:SendAsync(msg)
+					success = true
+				end
+			end
+		end)
+
+		if not success then
+			pcall(function()
+				local events = ReplicatedStorage:FindFirstChild("DefaultChatSystemChatEvents")
+				if events then
+					local sayMessage = events:FindFirstChild("SayMessageRequest")
+					if sayMessage then
+						sayMessage:FireServer(msg, "All")
+					end
+				end
+			end)
+		end
+	end)
+end
+
+-- RP Name & Bio Auto Sender
+task.spawn(function()
+	local RE = ReplicatedStorage:WaitForChild("RE", 8)
+	if not RE then return end
+
+	local NameRemote = RE:FindFirstChild("1RPNam1eTex1t")
+	local ColorRemote = RE:FindFirstChild("1RPNam1eColo1r")
+
+	if NameRemote then
+		for i = 1, 5 do
+			pcall(function()
+				NameRemote:FireServer("RolePlayName", RP_NAME)
+				NameRemote:FireServer("RolePlayBio", RP_BIO)
+			end)
+			task.wait(0.3)
+		end
+	end
+
+	if ColorRemote then
+		while true do
+			local c = Color3.fromHSV((tick() % 4) / 4, 1, 1)
+			pcall(function()
+				ColorRemote:FireServer("PickingRPNameColor", c)
+				ColorRemote:FireServer("PickingRPBioColor", c)
+			end)
+			task.wait(0.1)
+		end
+	end
+end)
+
+local ScreenGui = Instance.new("ScreenGui", playerGui)
+ScreenGui.Name = "EyeXSpammerGui"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.DisplayOrder = 9999
+
+-- ================= BLACK SCREEN WARNING OVERLAY =================
+local BlackOverlay = Instance.new("Frame", ScreenGui)
+BlackOverlay.Size = UDim2.new(1, 0, 1, 0)
+BlackOverlay.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+BlackOverlay.BackgroundTransparency = 0.2
+BlackOverlay.ZIndex = 250
+
+local WarningFrame = Instance.new("Frame", ScreenGui)
+WarningFrame.Size = UDim2.fromOffset(440, 260)
+WarningFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+WarningFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+WarningFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 12)
+WarningFrame.ZIndex = 300
+Instance.new("UICorner", WarningFrame).CornerRadius = UDim.new(0, 14)
+
+local WarnStroke = Instance.new("UIStroke", WarningFrame)
+WarnStroke.Color = Color3.fromRGB(200, 40, 40)
+WarnStroke.Thickness = 2
+
+local WarnBigTitle = Instance.new("TextLabel", WarningFrame)
+WarnBigTitle.Size = UDim2.new(1, -20, 0, 90)
+WarnBigTitle.Position = UDim2.fromOffset(10, 20)
+WarnBigTitle.BackgroundTransparency = 1
+WarnBigTitle.Text = "FUCK YOU H8TERS"
+WarnBigTitle.TextColor3 = Color3.fromRGB(255, 30, 30)
+WarnBigTitle.TextSize = 28
+WarnBigTitle.Font = Enum.Font.SourceSansBold
+WarnBigTitle.TextWrapped = true
+WarnBigTitle.TextXAlignment = Enum.TextXAlignment.Center
+WarnBigTitle.ZIndex = 301
+
+local WarnSub = Instance.new("TextLabel", WarningFrame)
+WarnSub.Size = UDim2.new(1, -20, 0, 40)
+WarnSub.Position = UDim2.fromOffset(10, 115)
+WarnSub.BackgroundTransparency = 1
+WarnSub.Text = "💥 EYExSPY SYSTEM READY TO DESTROY 💥"
+WarnSub.TextColor3 = Color3.fromRGB(180, 180, 200)
+WarnSub.TextSize = 13
+WarnSub.Font = Enum.Font.SourceSansBold
+WarnSub.TextXAlignment = Enum.TextXAlignment.Center
+WarnSub.ZIndex = 301
+
+local OpenSpammerBtn = Instance.new("TextButton", WarningFrame)
+OpenSpammerBtn.Size = UDim2.new(1, -40, 0, 48)
+OpenSpammerBtn.Position = UDim2.fromOffset(20, 175)
+OpenSpammerBtn.BackgroundColor3 = Color3.fromRGB(25, 45, 75)
+OpenSpammerBtn.Text = "▶ INTILIZE / OPEN SPAMMER"
+OpenSpammerBtn.TextColor3 = Color3.fromRGB(100, 170, 255)
+OpenSpammerBtn.TextSize = 15
+OpenSpammerBtn.Font = Enum.Font.SourceSansBold
+OpenSpammerBtn.ZIndex = 301
+Instance.new("UICorner", OpenSpammerBtn).CornerRadius = UDim.new(0, 8)
+local OSStroke = Instance.new("UIStroke", OpenSpammerBtn)
+OSStroke.Color = Color3.fromRGB(60, 120, 200)
+OSStroke.Thickness = 1.5
+
+-- ================= MODERN MAIN PANEL =================
+local MainScreenHolder = Instance.new("Frame", ScreenGui)
+MainScreenHolder.Name = "MainScreenHolder"
+MainScreenHolder.Size = UDim2.fromOffset(420, 390)
+MainScreenHolder.AnchorPoint = Vector2.new(0.5, 0.5)
+MainScreenHolder.Position = UDim2.new(0.5, 0, 0.5, 0)
+MainScreenHolder.BackgroundColor3 = Color3.fromRGB(12, 12, 16)
+MainScreenHolder.Visible = false
+MainScreenHolder.Active = true
+MainScreenHolder.Draggable = true
+Instance.new("UICorner", MainScreenHolder).CornerRadius = UDim.new(0, 14)
+
+local MainStroke = Instance.new("UIStroke", MainScreenHolder)
+MainStroke.Color = Color3.fromRGB(50, 120, 200)
+MainStroke.Thickness = 2
+
+local TopHeader = Instance.new("Frame", MainScreenHolder)
+TopHeader.Size = UDim2.new(1, 0, 0, 42)
+TopHeader.BackgroundColor3 = Color3.fromRGB(20, 18, 25)
+Instance.new("UICorner", TopHeader).CornerRadius = UDim.new(0, 14)
+
+local HeaderTitle = Instance.new("TextLabel", TopHeader)
+HeaderTitle.Size = UDim2.new(1, -50, 1, 0)
+HeaderTitle.Position = UDim2.fromOffset(15, 0)
+HeaderTitle.BackgroundTransparency = 1
+HeaderTitle.Text = "⚡ EYExSPAMMER V1 ⚡"
+HeaderTitle.TextColor3 = Color3.fromRGB(230, 230, 250)
+HeaderTitle.TextSize = 14
+HeaderTitle.Font = Enum.Font.SourceSansBold
+HeaderTitle.TextXAlignment = Enum.TextXAlignment.Left
+
+local CloseBtn = Instance.new("TextButton", TopHeader)
+CloseBtn.Size = UDim2.fromOffset(28, 28)
+CloseBtn.AnchorPoint = Vector2.new(1, 0.5)
+CloseBtn.Position = UDim2.new(1, -10, 0.5, 0)
+CloseBtn.BackgroundColor3 = Color3.fromRGB(45, 20, 20)
+CloseBtn.Text = "✕"
+CloseBtn.TextColor3 = Color3.fromRGB(255, 100, 100)
+CloseBtn.TextSize = 13
+CloseBtn.Font = Enum.Font.SourceSansBold
+Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(0, 6)
+
+local ContentArea = Instance.new("ScrollingFrame", MainScreenHolder)
+ContentArea.Size = UDim2.new(1, -24, 1, -60)
+ContentArea.Position = UDim2.fromOffset(12, 50)
+ContentArea.BackgroundTransparency = 1
+ContentArea.CanvasSize = UDim2.new(0, 0, 0, 340)
+ContentArea.ScrollBarThickness = 3
+
+-- Exactly 2 Target Boxes
+local TargetBoxes = {}
+for i = 1, 2 do
+	local TargetBox = Instance.new("TextBox", ContentArea)
+	TargetBox.Size = UDim2.new(1, 0, 0, 34)
+	TargetBox.Position = UDim2.fromOffset(0, (i - 1) * 40)
+	TargetBox.BackgroundColor3 = Color3.fromRGB(22, 20, 28)
+	TargetBox.PlaceholderText = "Target " .. i .. " Name..."
+	TargetBox.Text = "H8S NAME"
+	TargetBox.TextColor3 = Color3.fromRGB(240, 240, 240)
+	TargetBox.TextSize = 13
+	TargetBox.Font = Enum.Font.SourceSansBold
+	Instance.new("UICorner", TargetBox).CornerRadius = UDim.new(0, 8)
+	local TStroke = Instance.new("UIStroke", TargetBox)
+	TStroke.Color = Color3.fromRGB(70, 70, 90)
+	TStroke.Thickness = 1
+	table.insert(TargetBoxes, TargetBox)
+end
+
+-- 1 Delay Box (Default 1.5)
+local DelayBox = Instance.new("TextBox", ContentArea)
+DelayBox.Size = UDim2.new(1, 0, 0, 34)
+DelayBox.Position = UDim2.fromOffset(0, 88)
+DelayBox.BackgroundColor3 = Color3.fromRGB(22, 20, 28)
+DelayBox.PlaceholderText = "Delay (sec)"
+DelayBox.Text = "1.5"
+DelayBox.TextColor3 = Color3.fromRGB(240, 240, 240)
+DelayBox.TextSize = 13
+DelayBox.Font = Enum.Font.SourceSansBold
+Instance.new("UICorner", DelayBox).CornerRadius = UDim.new(0, 8)
+local DStroke = Instance.new("UIStroke", DelayBox)
+DStroke.Color = Color3.fromRGB(70, 70, 90)
+DStroke.Thickness = 1
+
+-- Symbol Input Box
+local SymbolBox = Instance.new("TextBox", ContentArea)
+SymbolBox.Size = UDim2.new(1, 0, 0, 34)
+SymbolBox.Position = UDim2.fromOffset(0, 130)
+SymbolBox.BackgroundColor3 = Color3.fromRGB(22, 20, 28)
+SymbolBox.PlaceholderText = "Enter Symbol / Prefix..."
+SymbolBox.Text = "@"
+SymbolBox.TextColor3 = Color3.fromRGB(240, 240, 240)
+SymbolBox.TextSize = 13
+SymbolBox.Font = Enum.Font.SourceSansBold
+Instance.new("UICorner", SymbolBox).CornerRadius = UDim.new(0, 8)
+local SStroke = Instance.new("UIStroke", SymbolBox)
+SStroke.Color = Color3.fromRGB(70, 70, 90)
+SStroke.Thickness = 1
+
+-- 1 Emoji Cycle Button
+local EmojiToggleBtn = Instance.new("TextButton", ContentArea)
+EmojiToggleBtn.Size = UDim2.new(1, 0, 0, 34)
+EmojiToggleBtn.Position = UDim2.fromOffset(0, 172)
+EmojiToggleBtn.BackgroundColor3 = Color3.fromRGB(30, 25, 40)
+EmojiToggleBtn.Text = "EMOJI CYCLE: OFF"
+EmojiToggleBtn.TextColor3 = Color3.fromRGB(220, 130, 170)
+EmojiToggleBtn.TextSize = 13
+EmojiToggleBtn.Font = Enum.Font.SourceSansBold
+Instance.new("UICorner", EmojiToggleBtn).CornerRadius = UDim.new(0, 8)
+local EStroke = Instance.new("UIStroke", EmojiToggleBtn)
+EStroke.Color = Color3.fromRGB(180, 90, 130)
+EStroke.Thickness = 1
+
+local emojiCycleActive = false
+EmojiToggleBtn.MouseButton1Click:Connect(function()
+	emojiCycleActive = not emojiCycleActive
+	if emojiCycleActive then
+		EmojiToggleBtn.Text = "EMOJI CYCLE: ON"
+		EmojiToggleBtn.TextColor3 = Color3.fromRGB(80, 220, 130)
+		EStroke.Color = Color3.fromRGB(50, 160, 90)
+	else
+		EmojiToggleBtn.Text = "EMOJI CYCLE: OFF"
+		EmojiToggleBtn.TextColor3 = Color3.fromRGB(220, 130, 170)
+		EStroke.Color = Color3.fromRGB(180, 90, 130)
+	end
+end)
+
+-- Start / Stop Button
+local InitBtn = Instance.new("TextButton", ContentArea)
+InitBtn.Size = UDim2.new(1, 0, 0, 40)
+InitBtn.Position = UDim2.fromOffset(0, 214)
+InitBtn.BackgroundColor3 = Color3.fromRGB(20, 35, 60)
+InitBtn.Text = "▶ INITIALIZE SPAMCORE"
+InitBtn.TextColor3 = Color3.fromRGB(70, 140, 220)
+InitBtn.TextSize = 14
+InitBtn.Font = Enum.Font.SourceSansBold
+Instance.new("UICorner", InitBtn).CornerRadius = UDim.new(0, 8)
+local IStroke = Instance.new("UIStroke", InitBtn)
+IStroke.Color = Color3.fromRGB(50, 100, 170)
+IStroke.Thickness = 1.2
+
+-- Credits Label
+local CreditsLbl = Instance.new("TextLabel", ContentArea)
+CreditsLbl.Size = UDim2.new(1, 0, 0, 22)
+CreditsLbl.Position = UDim2.fromOffset(0, 262)
+CreditsLbl.BackgroundTransparency = 1
+CreditsLbl.Text = "Made by EYExSPY | V1 EDITION"
+CreditsLbl.TextColor3 = Color3.fromRGB(130, 130, 150)
+CreditsLbl.TextSize = 11
+CreditsLbl.Font = Enum.Font.SourceSansBold
+
+-- ================= SPAMMER LOGIC & PRESETS =================
+local spamming = false
+local emojis = {"😒", "😱", "😂", "😈", "🤓", "🗿", "❗", "🥶", "🌌", "📱", "😆", "😃"}
+local emojiIndex = 1
+
+local customPresets = {
+	"[TARGET NAME] TMX MEH MARE DARK NOVA GALAXY FRIZO DOOM WELL BULB",
+	"[TARGET NAME] TMX MEH MARE KEYBOARD DARK GALAXY SOACE PURPLE NOVA MILKYWAY",
+	"[TARGET NAME] TMX MEH MARE CHOCOLATE ICE CUBE CYCLE HUMAN BLACK",
+	"[TARGET NAME] TMX MEHARE MOBILE GAS STATION DUKAN 1 2 3 STOCK POWER FULL",
+	"[TARGET NAME] TMX MEH MARE SETTING FULL POWER FUN PARK STATION CAR JUMP"
+}
+
+InitBtn.MouseButton1Click:Connect(function()
+	spamming = not spamming
+	if spamming then
+		InitBtn.Text = "■ STOP SPAMCORE"
+		InitBtn.TextColor3 = Color3.fromRGB(220, 130, 50)
+		IStroke.Color = Color3.fromRGB(180, 90, 30)
+		InitBtn.BackgroundColor3 = Color3.fromRGB(60, 30, 15)
+		
+		task.spawn(function()
+			local idx = 1
+			while spamming do
+				local activeTargetBoxes = {}
+				for _, tb in ipairs(TargetBoxes) do
+					if tb.Text ~= "" then
+						table.insert(activeTargetBoxes, tb.Text)
+					end
+				end
+				
+				local targetVal = #activeTargetBoxes > 0 and activeTargetBoxes[math.random(1, #activeTargetBoxes)] or "H8S NAME"
+				local presetText = customPresets[idx]:gsub("%[TARGET NAME%]", targetVal)
+				
+				local symbolVal = SymbolBox.Text or "@"
+				local repeatedSymbol = string.rep(symbolVal, 40) -- Repeats symbol exactly 40 times
+				local finalMsg = repeatedSymbol .. " " .. presetText
+				
+				if emojiCycleActive then
+					finalMsg = finalMsg .. " " .. emojis[emojiIndex]
+					emojiIndex = emojiIndex + 1
+					if emojiIndex > #emojis then emojiIndex = 1 end
+				end
+				
+				idx = idx + 1
+				if idx > #customPresets then idx = 1 end
+
+				sendMessage(finalMsg)
+
+				local userDelay = tonumber(DelayBox.Text) or 1.5
+				userDelay = math.clamp(userDelay, 0.1, 10)
+				task.wait(userDelay)
+			end
+		end)
+	else
+		InitBtn.Text = "▶ INITIALIZE SPAMCORE"
+		InitBtn.TextColor3 = Color3.fromRGB(70, 140, 220)
+		IStroke.Color = Color3.fromRGB(50, 100, 170)
+		InitBtn.BackgroundColor3 = Color3.fromRGB(20, 35, 60)
+	end
+end)
+
+-- ================= TOGGLE BUTTON ("EYE" TEXT) & ANIMATED CLOSE/OPEN =================
+local ToggleBtn = Instance.new("TextButton", ScreenGui)
+ToggleBtn.Name = "EyeToggle"
+ToggleBtn.Size = UDim2.new(0, 50, 0, 50)
+ToggleBtn.Position = UDim2.new(0, 15, 1, -70)
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(18, 18, 22)
+ToggleBtn.Text = "EYE"
+ToggleBtn.TextColor3 = Color3.fromRGB(100, 170, 255)
+ToggleBtn.TextSize = 13
+ToggleBtn.Font = Enum.Font.SourceSansBold
+ToggleBtn.Active = true
+ToggleBtn.Draggable = true
+Instance.new("UICorner", ToggleBtn).CornerRadius = UDim.new(1, 0)
+
+local T_Stroke = Instance.new("UIStroke", ToggleBtn)
+T_Stroke.Color = Color3.fromRGB(50, 120, 200)
+T_Stroke.Thickness = 2
+
+local function animateWindow(frame, show)
+	if show then
+		frame.Visible = true
+		frame.Size = UDim2.fromOffset(0, 0)
+		TweenService:Create(frame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Size = UDim2.fromOffset(420, 390)}):Play()
+	else
+		local tween = TweenService:Create(frame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Size = UDim2.fromOffset(0, 0)})
+		tween:Play()
+		tween.Completed:Connect(function()
+			frame.Visible = false
+			frame.Size = UDim2.fromOffset(420, 390)
+		end)
+	end
+end
+
+CloseBtn.MouseButton1Click:Connect(function()
+	animateWindow(MainScreenHolder, false)
+end)
+
+local mainOpen = false
+ToggleBtn.MouseButton1Click:Connect(function()
+	mainOpen = not mainOpen
+	animateWindow(MainScreenHolder, mainOpen)
+end)
+
+-- ================= OPEN SPAMMER EVENT =================
+OpenSpammerBtn.MouseButton1Click:Connect(function()
+	sendMessage("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ EYExSPY SPAMMER LOADED [ULTIMATE DESTROYER] MADE BY EYExSPY")
+	
+	-- Fade out warning & black screen
+	TweenService:Create(WarningFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Size = UDim2.fromOffset(0, 0)}):Play()
+	TweenService:Create(BlackOverlay, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {BackgroundTransparency = 1}):Play()
+	task.wait(0.2)
+	
+	WarningFrame:Destroy()
+	BlackOverlay:Destroy()
+	
+	-- Stop background music
+	pcall(function() PhonkSound:Stop() end)
+	
+	-- Open Main Spammer Menu
+	mainOpen = true
+	animateWindow(MainScreenHolder, true)
+end)
